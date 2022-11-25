@@ -1,3 +1,1 @@
-1233
-elia
-chloe
+include("./myfunctions.jl")
