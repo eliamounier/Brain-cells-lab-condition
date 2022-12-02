@@ -1,0 +1,6 @@
+Data sets should be downloaded from :
+https://lcnwww.epfl.ch/bio322/project2022/test.csv.gz
+https://lcnwww.epfl.ch/bio322/project2022/train.csv.gz
+and inserted into this DATA folder under the respective paths:
+"DATA/test.csv"
+"DATA/train.csv"
