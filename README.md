@@ -13,7 +13,9 @@ launch julia and run the following code to install the course material:
        using MLCourse
        MLCourse.start()"
        
-## after first Git pull
+3) we recommend to use Visual Studio Code
+4) 
+## After first Git Pull
 Data sets "test.csv" and "train.csv" need to be downloaded from: 
 - https://lcnwww.epfl.ch/bio322/project2022/train.csv.gz 
 - https://lcnwww.epfl.ch/bio322/project2022/test.csv.gz
