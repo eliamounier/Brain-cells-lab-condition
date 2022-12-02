@@ -12,3 +12,5 @@ launch julia and run the following code to install the course material:
        Pkg.instantiate()
        using MLCourse
        MLCourse.start()"
+       
+3)Data sets "test.csv" and "train.csv" need to be downloaded from: https://lcnwww.epfl.ch/bio322/project2022/train.csv.gz 
