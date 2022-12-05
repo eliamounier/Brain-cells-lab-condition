@@ -7,7 +7,7 @@ coerce!(train_data, :labels => Multiclass)
 
 X = select(train_data, Not([:labels]))
 y = train_data.labels
-
+ilmioio
 
 # logistic classification
 model_LC = LogisticClassifier()
