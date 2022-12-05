@@ -5,13 +5,15 @@
 2) MLcourse installation:
 launch julia and run the following code to install the course material:
 
-"julia> using Pkg
-       Pkg.activate(temp = true)
-       Pkg.develop(url = "https://github.com/jbrea/MLCourse")
-       Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
-       Pkg.instantiate()
-       using MLCourse
-       MLCourse.start()"
+```julia
+julia> using Pkg
+Pkg.activate(temp = true)
+Pkg.develop(url = "https://github.com/jbrea/MLCourse")
+Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
+Pkg.instantiate()
+using MLCourse
+MLCourse.start()
+```
        
 3) we recommend to use Visual Studio Code
 
