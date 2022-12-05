@@ -9,7 +9,7 @@ y = train_data.labels
 X_const = X[:, std.(eachcol(X)) .!= 0]
 
 corr = findall(≈(1), cor(Matrix(X_const))) |> idxs -> filter(x -> x[1] > x[2], idxs)
-a = 1:size(corr)[1]
+#a = 1:size(corr)[1]
 #corr_colnames = [names(X_const)[i] for i in a]
 #X_cleaned = X_const
 #for i in a
@@ -18,3 +18,5 @@ a = 1:size(corr)[1]
 
 dataX = X_const
 datay = y
+
+test_data = CSV.read("DATA/test.csv", DataFrame)
