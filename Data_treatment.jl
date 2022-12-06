@@ -8,7 +8,7 @@ X = select(train_data, Not(:labels))
 y = train_data.labels
 X_const = X[:, std.(eachcol(X)) .!= 0]
 
-corr = findall(≈(1), cor(Matrix(X_const))) |> idxs -> filter(x -> x[1] > x[2], idxs)
+#corr = findall(≈(1), cor(Matrix(X_const))) |> idxs -> filter(x -> x[1] > x[2], idxs)
 #a = 1:size(corr)[1]
 #corr_colnames = [names(X_const)[i] for i in a]
 #X_cleaned = X_const
@@ -16,7 +16,9 @@ corr = findall(≈(1), cor(Matrix(X_const))) |> idxs -> filter(x -> x[1] > x[2],
     #X_cleaned = select(X_cleaned, Not([i]))
 #end
 
-dataX = X_const
-datay = y
+#dataX = X_const
+#datay = y
 
 test_data = CSV.read("DATA/test.csv", DataFrame)
+CSV.write("DATA/datay.csv", y)
+CSV.write("DATA/dataX.csv", X_const)
