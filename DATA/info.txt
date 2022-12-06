@@ -4,3 +4,7 @@ https://lcnwww.epfl.ch/bio322/project2022/train.csv.gz
 and inserted into this DATA folder under the respective paths:
 "DATA/test.csv"
 "DATA/train.csv"
+
+Treated trained datasets can be obtained from running Data_treatment.jl; or at the link: 
+https://www.swisstransfer.com/d/63ad2b77-9983-4c52-a901-b0671bc69240  
+(make sure they respect the following paths: "DATA/dataX.csv" and "DATA/datay.csv")
