@@ -2,19 +2,24 @@
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 using DataFrames, MLJ, MLJLinearModels, MLCourse, Random, Distributions, Plots, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV
 
-train_input = CSV.read("DATA/dataX.csv", DataFrame)
-train_class = CSV.read("DATA/datay.csv", DataFrame)
+
+train_input = CSV.read("DATA/dataX.csv", DataFrame)[1:100, :]
+train_class = CSV.read("DATA/datay.csv", DataFrame)[1:100, :]
+
+
 test_input = CSV.read("DATA/test.csv", DataFrame)
 
 #FOREST TREE
 #machine for a random forest with 500 trees
-mach_forest_tree = machine(RandomForestClassifier(n_trees = 750), train_input, train_class) |> fit!
+mach_forest_tree = machine(RandomForestClassifier(n_trees = 50), train_input, train_class) |> fit!
 #prediction on the test set with random forest:
-prediction_forest_tree = predict_mode(mach_forest_tree, test_input)
-prediction_forest_tree
+prediction_forest_tree = String.(predict_mode(mach_forest_tree, test_input))
+df_predict_tree = Dataframe(id :: 1:3093, prediction_forest_tree)
+
 
 accuracy = mean(prediction_forest_tree .== test_output)
 confusion_matrix(prediction_forest_tree, test_output)
+
 
 CSV.write("./predict_foresttree.csv", prediction_forest_tree)
 
