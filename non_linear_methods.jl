@@ -2,8 +2,11 @@
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 using DataFrames, MLJ, MLJLinearModels, MLCourse, Random, Distributions, Plots, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV
 
+
 train_input = CSV.read("DATA/dataX.csv", DataFrame)[1:100, :]
 train_class = CSV.read("DATA/datay.csv", DataFrame)[1:100, :]
+
+
 test_input = CSV.read("DATA/test.csv", DataFrame)
 
 #FOREST TREE

@@ -19,7 +19,7 @@ X_const = X[:, std.(eachcol(X)) .!= 0]
 #dataX = X_const
 #datay = y
 
-CSV.write("./dataX.csv", X_const)
-CSV.write("./datay.csv", y)
 
 test_data = CSV.read("DATA/test.csv", DataFrame)
+CSV.write("DATA/datay.csv", y)
+CSV.write("DATA/dataX.csv", X_const)
