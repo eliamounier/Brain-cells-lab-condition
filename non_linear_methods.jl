@@ -1,12 +1,10 @@
 # This folder is for non-linear methods
-include("./Data_treatment.jl")
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 using DataFrames, MLJ, MLJLinearModels, MLCourse, Random, Distributions, Plots, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV
 
-train_input = dataX
-train_class = datay
-
-test_input = test_data
+train_input = CSV.read("DATA/dataX.csv", DataFrame)
+train_class = CSV.read("DATA/datay.csv", DataFrame)
+test_input = CSV.read("DATA/test.csv", DataFrame)
 
 #FOREST TREE
 #machine for a random forest with 500 trees
