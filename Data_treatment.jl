@@ -3,7 +3,7 @@ using Plots, OpenML, DataFrames, CSV, MLCourse, Random, Statistics, MLJ, MLJLine
 
 train_data = CSV.read("DATA/train.csv", DataFrame)
 test_data = CSV.read("DATA/test.csv", DataFrame)
-coerce!(train_data, :labels => Multiclass)
+# coerce!(train_data, :labels => Multiclass)
 #dropmissing was tested and output is of same size -> no missing Data
 X = select(train_data, Not(:labels))
 X_totreat = vcat(X, test_data)
@@ -14,7 +14,8 @@ corr = findall(≈(1), cor(Matrix(X_const))) |> idxs -> filter(x -> x[1] > x[2],
 a = 1:size(corr)[1]
 corr_indexes1 = [corr[i][1] for i in a]
 corr_names1 = [names(X_const)[j] for j in corr_indexes1]
-# X_cleaned = select(X_const, Not(corr_names1))
+corr_names1_wout = unique(corr_names1)
+X_cleaned = select(X_const, Not(corr_names1_wout))
 
 
 dataX = X_const[1:5000, :]
@@ -22,5 +23,5 @@ dataT = X_const[5001:8093, :]
 datay = y
 
 
-#CSV.write("DATA/datay.csv", y)
-#CSV.write("DATA/dataX.csv", X_const)
+CSV.write("DATA/datay.csv", y)
+CSV.write("DATA/dataX.csv", X_const)
