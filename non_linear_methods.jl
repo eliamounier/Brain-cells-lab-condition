@@ -24,7 +24,7 @@ accuracy = mean(prediction_forest_tree .== test_output)
 confusion_matrix(prediction_forest_tree, test_output)
 
 
-CSV.write("./predict_foresttree_bis.csv", df_predict_tree)
+CSV.write("./predict_foresttree_3000.csv", df_predict_tree)
 
 #NEURON NETWORK CLASSIFIER
 mach_neuron_network_classifier = machine(NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 128, dropout = 0.1, σ = relu),
