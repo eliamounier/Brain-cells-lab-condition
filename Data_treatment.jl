@@ -4,14 +4,13 @@ using DataFrames, CSV, Statistics, MLJ, Serialization
 #importing datasets
 train_data = CSV.read("DATA/train.csv", DataFrame)
 test_data = CSV.read("DATA/test.csv", DataFrame)
-train_output = categorical(train_data.labels, levels = ["KAT5", "eGFP", "CBP"], ordered = true)
+y = train_data.labels
 
 #dropmissing was tested and output is of same size -> no missing Data
 
 #REMOVAL OF CONSTANT PREDICTORS
 X = select(train_data, Not(:labels))
 X_totreat = vcat(X, test_data)
-y = train_data.labels
 X_const = X_totreat[:, std.(eachcol(X)) .!= 0]
 
 #REMOVAL OF COORELATED PREDICTORS
@@ -27,6 +26,6 @@ dataX = X_cleaned[1:5000, :]
 dataT = X_cleaned[5001:8093, :]
 
 #Saving new datasets
-serialize("DATA/trainlabels.dat", train_output)
+serialize("DATA/trainlabels.dat", y)
 CSV.write("DATA/trainX.csv", dataX)
 CSV.write("DATA/testX.csv", dataT)
