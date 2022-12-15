@@ -4,4 +4,6 @@ DATA/train.csv
 DATA/test.csv
 predict_foresttree.csv
 DATA/dataX.csv
-DATA/datay.csv
+DATA/datayy.csv
+DATA/dataT.csv
+RESULTS/predict_pn.csv
