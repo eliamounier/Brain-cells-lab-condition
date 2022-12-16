@@ -4,7 +4,8 @@ using DataFrames, CSV, Statistics, MLJ, Serialization
 #importing datasets
 train_data = CSV.read("DATA/train.csv", DataFrame)
 test_data = CSV.read("DATA/test.csv", DataFrame)
-y = train_data.labels
+
+y = categorical(train_data.labels, levels = ["KAT5", "CBP", "eGFP"], ordered = true)
 
 #dropmissing was tested and output is of same size -> no missing Data
 
@@ -24,6 +25,7 @@ X_cleaned = select(X_const, Not(corr_names1_wout))
 #back into exploitable form
 dataX = X_cleaned[1:5000, :]
 dataT = X_cleaned[5001:8093, :]
+
 
 #Saving new datasets
 serialize("DATA/trainlabels.dat", y)
