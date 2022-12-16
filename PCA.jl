@@ -57,34 +57,4 @@ png(bp1_bis, "PLOTS/Biplot_PCA_standardized_1.png")
 
 
 
-#######TO REMOVE ###### (just so that it is saved somewhere )
-#PCA biplot 20dimension
-pca20D = fit!(machine(@pipeline(Standardizer(), PCA(maxoutdim = 20)), train_data_treated))
-gr(); 
-bpPCA20D = biplot(pca20D) 
-png(bpPCA20D, "PLOTS/Biplot_PCA_20D.png") 
-report(pca20D)
-
-
-#PCA biplot 20dimension
-pca20D2 = fit!(machine(@pipeline(Standardizer(), PCA()), train_data_treated))
-gr(); 
-bpPCA20D2 = biplot(pca20D2) 
-png(bpPCA20D2, "PLOTS/Biplot_PCA_20D.png")
-#########
-## PCA : FINDS THE DIRECTION OF LARGEST VARIANCE 
-
-#PCA, with variance ratio 1
-pca = fit!(machine(PCA(variance_ratio = 1), train_data_treated), verbosity = 1);
-#biplots
-gr(); #gr() modulus 
-bp1 = biplot(pca) 
-png(bp1, "PLOTS/Biplot_PCA_1.png") 
-bp2 = biplot(pca, pc = (1, 3)) 
-png(bp2, "PLOTS/Biplot_PCA_2.png")
-
-#PCA ON SMALLER PREDICTORS SETS
-pca = fit!(machine(PCA(variance_ratio = 0.9), train_data_treated, verbosity = 1));
-report(pca)
-fitted_params(pca) # shows the loadings as columns
 
