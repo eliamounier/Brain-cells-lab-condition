@@ -22,7 +22,7 @@ true_labels = categorical(Y, levels = ["KAT5", "eGFP", "CBP"], ordered = true)
 
 #PLOT 1 : PCA not standardized, in 2D, true labels 
 data2d = MLJ.transform(fit!(machine(PCA(maxoutdim = 2), train_data_treated)), train_data_treated)
-gr()
+gr();
 cl1_true = scatter(data2d.x1, data2d.x2, c = Int.(int(true_labels)), legend = false, title = "truelabels, PCA2D" )
 png(cl1_true, "PLOTS/PCA_2D.png")
 
