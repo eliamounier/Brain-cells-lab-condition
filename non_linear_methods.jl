@@ -70,6 +70,14 @@ prediction_neural_network_L2_1 = String.(predict_mode(mach_neuron_network_classi
 df_neural_network_L2_1 = DataFrame(id = 1:3093, prediction = prediction_neural_network_L2_1)
 CSV.write("./neuralnetwork_L2_1.csv", df_neural_network_L2_1)
 
+#L2 3 bis to compare (without PCA)
+mach_neuron_network_classifier_L2_2 = machine(NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 200, dropout = 0.01),
+                                                                batch_size = 20, lambda = 1e-3, alpha = 0,  epochs = 40), train_input, Y)|> fit!; 
+prediction_neural_network_L2_2= String.(predict_mode(mach_neuron_network_classifier_L2_2, test_input))
+df_neural_network_L2_2 = DataFrame(id = 1:3093, prediction = prediction_neural_network_L2_2)
+CSV.write("./neuralnetwork_L2_3_bis.csv", df_neural_network_L2_2)
+
+
 #PART 2: with PCA
 test_input_PCA = deserialize("DATA/test_PCA.dat")
 train_input_PCA = deserialize("DATA/train_PCA.dat")
@@ -122,3 +130,24 @@ train_input_PCA, Y)|> fit!;
 prediction_neural_network_L2_1_PCA = String.(predict_mode(mach_neuron_network_classifier_L2_1_PCA, test_input_PCA))
 df_neural_network_L2_PCA = DataFrame(id = 1:3093, prediction = prediction_neural_network_L2_1_PCA)
 CSV.write("./neuralnetwork_L2_PCA_1.csv", df_neural_network_L2_PCA)
+
+#training with a linear model /gradient descent
+model = NeuralNetworkClassifier(builder = MLJFlux.Linear(σ = identity), epochs = 100, batch_size = 128)
+mach = machine(model, train_input_PCA, Y)
+evaluate!(mach, resampling = CV(nfolds = 5, shuffle = true), force = true, repeats = 3, measure = [mcr, log_loss])
+
+########
+#L2 bis : more epoch 
+mach_neuron_network_classifier_L2_2_PCA = machine(NeuralNetworkClassifier( builder = MLJFlux.@builder(Chain(Dense(n_in, 128, relu), Dense(128, n_out))), batch_size = 32, lambda = 1e-3, alpha = 0, epochs = 60),
+train_input_PCA, Y)|> fit!;
+prediction_neural_network_L2_2_PCA = String.(predict_mode(mach_neuron_network_classifier_L2_2_PCA, test_input_PCA))
+df_neural_network_L2_2_PCA = DataFrame(id = 1:3093, prediction = prediction_neural_network_L2_2_PCA)
+CSV.write("./neuralnetwork_L2_PCA_2_bis2.csv", df_neural_network_L2_2_PCA)
+
+#L2.3bis
+mach_neuron_network_classifier_PCA = machine(NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 200, dropout = 0.01),
+                                                                batch_size = 20, lambda = 1e-3, alpha = 0,  epochs = 40),train_input_PCA, Y)|> fit!; 
+
+prediction_neural_network_PCA = String.(predict_mode(mach_neuron_network_classifier_PCA, test_input_PCA))
+df_neural_network_PCA = DataFrame(id = 1:3093, prediction = prediction_neural_network_PCA)
+CSV.write("./neuralnetwork_L2_PCA_3_bis.csv", df_neural_network_PCA)
