@@ -3,7 +3,13 @@
 DATA/train.csv
 DATA/test.csv
 predict_foresttree.csv
-DATA/dataX.csv
-DATA/datayy.csv
-DATA/dataT.csv
+DATA/trainX.csv
+DATA/testX.csv
+DATA/trainlabels.dat
 RESULTS/predict_pn.csv
+RESULTS/predict_lasso.csv
+DATA/train_PCA.dat
+DATA/test_PCA.dat
+RESULTS/predict_lasso_PCA.csv
+RESULTS/predict_linear_PCA.csv
+RESULTS/predict_linear.csv

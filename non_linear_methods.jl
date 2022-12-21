@@ -1,12 +1,15 @@
 # This folder is for non-linear methods
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
-using DataFrames, MLJ, MLCourse, Distributions, Serialization, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV
+using DataFrames, MLJ, MLCourse, Distributions, Serialization, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV, MLJXGBoostInterface
+
 
 #PART 1: no PCA
 #preparing dataframes
 test_input = CSV.read("DATA/testX.csv", DataFrame)
 train_input = CSV.read("DATA/trainX.csv", DataFrame)
 train_y = deserialize("DATA/trainlabels.dat")
+train_input_PCA = deserialize("DATA/train_PCA.dat")
+test_input_PCA = deserialize("DATA/test_PCA.dat")
 Y = categorical(train_y, levels = ["KAT5", "eGFP", "CBP"], ordered = true)
 
 #FOREST TREE
@@ -18,8 +21,17 @@ df_predict_tree = DataFrame(id = 1:3093, prediction = prediction_forest_tree)
 
 CSV.write("./predict_foresttree_3500.csv", df_predict_tree)
 
-#Gradient boosting trees
-#not tested in this project since forest tree already not satisfying enough ==> even an improve of 10% will still not be enough to egalize neural network
+
+#Gradient boosting trees -> to do with PCA
+model_xgb = XGBoostClassifier(eta = 0.1, num_round = 1000)
+self_tuning_model_xgb = TunedModel(model = model_xgb, resampling = CV(nfolds = 5), tuning = Grid(), range = range(model_xgb, :max_depth, lower = 3, upper = 5), measure = MisclassificationRate())
+self_tuning_mach_xgb = machine(self_tuning_model_xgb, train_input_PCA, Y)
+fit!(self_tuning_mach_xgb)
+y_pred_xgb = predict_mode(self_tuning_mach_xgb, test_input_PCA)
+y_pred_xgb_string = String.(y_pred_xgb)
+df_y_pred_xgb = DataFrame(id = 1:3093, prediction = y_pred_xgb_string)
+CSV.write("RESULTS/predict_xgb.csv", df_y_pred_xgb, writeheader = true)
+
 
 #NEURON NETWORK CLASSIFIER 
 #model 1

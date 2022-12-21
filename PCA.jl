@@ -56,5 +56,3 @@ bp1_bis = biplot(pca_bis)
 png(bp1_bis, "PLOTS/Biplot_PCA_standardized_1.png") 
 
 
-
-
