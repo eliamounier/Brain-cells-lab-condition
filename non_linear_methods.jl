@@ -1,6 +1,6 @@
 # This folder is for non-linear methods
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
-using DataFrames, MLJ, MLCourse, Distributions, Serialization, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV, MLJXGBoostInterface
+using DataFrames, MLJ, MLCourse, Distributions, Serialization, MLJFlux, Flux, OpenML, MLJDecisionTreeInterface, CSV, MLJXGBoostInterface, Plots
 
 
 #PART 1: no PCA
@@ -149,17 +149,36 @@ mach = machine(model, train_input_PCA, Y)
 evaluate!(mach, resampling = CV(nfolds = 5, shuffle = true), force = true, repeats = 3, measure = [mcr, log_loss])
 
 ########
-#L2 bis : more epoch 
+#L2 bis : more epoch #L2 or L1 ???
 mach_neuron_network_classifier_L2_2_PCA = machine(NeuralNetworkClassifier( builder = MLJFlux.@builder(Chain(Dense(n_in, 128, relu), Dense(128, n_out))), batch_size = 32, lambda = 1e-3, alpha = 0, epochs = 60),
 train_input_PCA, Y)|> fit!;
 prediction_neural_network_L2_2_PCA = String.(predict_mode(mach_neuron_network_classifier_L2_2_PCA, test_input_PCA))
 df_neural_network_L2_2_PCA = DataFrame(id = 1:3093, prediction = prediction_neural_network_L2_2_PCA)
 CSV.write("./neuralnetwork_L2_PCA_2_bis2.csv", df_neural_network_L2_2_PCA)
 
-#L2.3bis
+#L2.3bis  #L2 or L1 ???
 mach_neuron_network_classifier_PCA = machine(NeuralNetworkClassifier(builder = MLJFlux.Short(n_hidden = 200, dropout = 0.01),
                                                                 batch_size = 20, lambda = 1e-3, alpha = 0,  epochs = 40),train_input_PCA, Y)|> fit!; 
 
 prediction_neural_network_PCA = String.(predict_mode(mach_neuron_network_classifier_PCA, test_input_PCA))
 df_neural_network_PCA = DataFrame(id = 1:3093, prediction = prediction_neural_network_PCA)
 CSV.write("./neuralnetwork_L2_PCA_3_bis.csv", df_neural_network_PCA)
+
+
+# on best model yet, evaluating epochs with learning curve #time constraints -> PCA   # !!! with 300 was nice here oscillating --> overfit ?? -> to test  (128-256)
+model_neuron_classifier_L1_1_PCA_EP = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 256, relu), Dense(256, n_out))), batch_size = 32, lambda = 1e-6, alpha = 1)
+mach_neuron_classifier_L1_1_PCA_EP = machine(model_neuron_classifier_L1_1_PCA_EP, train_input_PCA, Y)
+curve = learning_curve(mach_neuron_classifier_L1_1_PCA_EP; range = range(model_neuron_classifier_L1_1_PCA_EP, :epochs, values = 10:200:1000), resampling = Holdout(), measure = MisclassificationRate())
+curve_plotted = plot(curve.parameter_values, curve.measurements, xlab=curve.parameter_name, xscale=curve.parameter_scale, ylab = "Holdout estimate of MisclassificationRate")
+png(curve_plotted, "PLOTS/learning_curve_NC_L1_PCA_epochs2.png")
+
+# TunedModel on dropout   # TO RUN WITH EPOCH FROM ABOVE # Add random seed = 0
+ep =
+model_neuron_classifier_L1_1_PCA_EP_DO = NeuralNetworkClassifier(builder = MLJFlux.@builder(Chain(Dense(n_in, 128, relu), Dense(128, n_out))), batch_size = 32, lambda = 1e-3, alpha = 1, epochs = ep)
+self_tuning_model_DO = TunedModel(model = model_neuron_classifier_L1_1_PCA_EP_DO, resampling = CV(nfolds = 6), tuning = Grid(), range = range(model_neuron_classifier_L1_1_PCA_EP_DO, :((neural_network_regressor.builder.dropout)), values = [0.1, 0.2, 0.3]), measure = MisclassificationRate())
+self_mach_neuron_classifier_L1_1_PCA_EP_DO = machine(self_tuning_model_DO, train_input_PCA, Y)
+fit!(self_mach_neuron_classifier_L1_1_PCA_EP_DO)
+prediction_neural_classifier_L1_1_PCA_EP_DO = String.(predict_mode(self_mach_neuron_classifier_L1_1_PCA_EP_DO, test_input_PCA))
+df_DO = DataFrame(id = 1:3093, prediction = prediction_neural_classifier_L1_1_PCA_EP_DO)
+CSV.write("./neuronclassifier_L1_PCA_DO.csv", df_DO)
+fitted_params(self_mach_neuron_classifier_L1_1_PCA_EP_DO).best_model
