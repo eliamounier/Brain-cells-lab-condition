@@ -13,3 +13,6 @@ DATA/test_PCA.dat
 RESULTS/predict_lasso_PCA.csv
 RESULTS/predict_linear_PCA.csv
 RESULTS/predict_linear.csv
+PLOTS/learning_curve_NC_L1_PCA_epochs.png
+PLOTS/learning_curve_NC_L1_PCA_epochs2.png
+PLOTS/learning_curve_NC_L1_PCA_epochs3.png
