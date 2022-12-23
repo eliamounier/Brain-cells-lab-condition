@@ -53,7 +53,7 @@ fit!(self_mach_lasso_PCA, verbosity = 2)
 y_pred_lasso_PCA = predict_mode(self_mach_lasso_PCA, test_input_PCA)
 y_pred_lasso_PCA_string = String.(y_pred_lasso_PCA)
 df_y_pred_lasso_PCA = DataFrame(id = 1:3093, prediction = y_pred_lasso_PCA_string)
-CSV.write("RESULTS/predict_lasso_PCA.csv", df_y_pred_lasso_PCA, writeheader = true)
+CSV.write("RESULTS/final_linear_L1_PCA.csv", df_y_pred_lasso_PCA, writeheader = true)
 fitted_params(self_mach_lasso_PCA).best_model
 # best lambda found by TunedModel is 1e-6 with range 1e-6, 1e-2 and with range 1e-8, 1e-6 -> range 1e-7, 1e-5, lambda = 4.641588833612782e-7
 
