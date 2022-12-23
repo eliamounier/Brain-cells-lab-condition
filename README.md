@@ -34,17 +34,17 @@ It is afterwards possible to run all the remaining files. Here is a brief summar
 - Regularization.jl : LogisticClassifier, LogisticClassifier with a lasso regularization, an attempt at LogisticClassifier with a ridge regularization.
 - KNNandPN.jl : KNNClassifier and polynomial classifier models. 
 - non_linear_methods.jl :
-    - models with cleaned data before PCA: Random forest, various tests of Neural networks first without and then with regularization
-    - models with cleaned data treated by PCA: Gradient Boosting Trees, Neuron netowrks (preliminary tests with and without regularization, tuning of epochs and dropout)
-- Clusters.jl : KMeans clusering and confusion matrices
+    - models with cleaned data before PCA: Random forest, various tests of Neural networks first without and then with regularization.
+    - models with cleaned data treated by PCA: Gradient Boosting Trees, Neuron netowrks (preliminary tests with and without regularization, tuning of epochs and dropout).
+- Clusters.jl : KMeans clusering and confusion matrices.
 - FinalModels.jl : Contains the 2 models we believe are the best : 
-    - LogisticClassifier with PCA treated data and lasso regularization (also in Regularization.jl)
-    - Neural network with PCA treated data, lasso regularization and dropout (also in non_linear_methods.jl) 
+    - LogisticClassifier with PCA treated data and lasso regularization (also in Regularization.jl).
+    - Neural network with PCA treated data, lasso regularization and dropout (also in non_linear_methods.jl). 
 - Visualisation.ipynb : gives a look at raw data, cleaned data, and PCA. 
 
 The results on test set and plots will be stored respectively in the RESULTS and the PLOTS folders. 
 
 ### Report and Kaggle final submissions
 - Our report can be found under report.pdf.
-- To reproduce the models from the kaggle submission, start by running first Data_treatment.jl and then PCA.jl. The final models are all in our original files but have as well been copied to FinalModels.jl and can be ran from there.
+- To reproduce the models from the kaggle submission, start by running first Data_treatment.jl and then PCA.jl. The final models are all in our original files but have as well been copied to FinalModel.jl and can be ran from there.
 
