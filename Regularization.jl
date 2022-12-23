@@ -33,7 +33,7 @@ CSV.write("RESULTS/predict_linear_PCA.csv", df_y_pred_lin_PCA, writeheader = tru
 
 model_lasso = LogisticClassifier(penalty = :l1, lambda = 0.01)
 self_tuning_model_lasso = TunedModel(model = model_lasso, resampling = CV(nfolds = 10), tuning = Grid(), range = range(model_lasso, :lambda, scale = :log10, lower = 1e-6, upper = 1e-2), measure = MisclassificationRate())
-self_mach_lasso = machine(self_tuning_model_lasso, train_input, train_class)
+self_mach_lasso = machine(self_tuning_model_lasso, train_input, Y)
 fit!(self_mach_lasso, verbosity = 2)
 y_pred_lasso = predict_mode(self_mach_lasso, test_input)
 y_pred_lasso_string = String.(y_pred_lasso)
@@ -44,7 +44,7 @@ fitted_params(self_mach_lasso).best_model
 
 #lasso regularization with PCA treated data
 # ran for about 1h30
-
+# model_lasso = LogisticClassifier(penalty = :l1, lambda = 0.01)
 Random.seed!(10)
 self_tuning_model_lasso_2 = TunedModel(model = model_lasso, resampling = CV(nfolds = 10), tuning = Grid(), range = range(model_lasso, :lambda, scale = :log10, lower = 1e-7, upper = 1e-5), measure = MisclassificationRate())
 Random.seed!(10)
@@ -58,7 +58,7 @@ fitted_params(self_mach_lasso_PCA).best_model
 # best lambda found by TunedModel is 1e-6 with range 1e-6, 1e-2 and with range 1e-8, 1e-6 -> range 1e-7, 1e-5, lambda = 4.641588833612782e-7
 
 #ridge took very long to run -> didn't start doing a TunedModel
-mach_ridge = machine(LogisticClassifier(penalty = :l2, lambda = 1), train_input, train_class)
+mach_ridge = machine(LogisticClassifier(penalty = :l2, lambda = 1), train_input[1:3000, :], train_class[1:3000])
 fit!(mach_ridge)
-y_pred_ridge = predict_mode(mach_ridge, test_input)
-confusion_matrix(y_pred_ridge, test_class)
+y_pred_ridge = predict_mode(mach_ridge, train_input[3001:5000, :])
+confusion_matrix(y_pred_ridge, train_class[3001:5000])
