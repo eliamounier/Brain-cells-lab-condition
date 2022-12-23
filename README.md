@@ -28,7 +28,7 @@ and added into the empty folder "DATA" under the following paths: "DATA/test.csv
 
 
 ## Running the code
-Before runing the different models, first Data_treatment.jl and then PCA.jl need to be executed. The data will be stored in the DATA folder.
+Before runing the different models, first Data_treatment.jl and then PCA.jl need to be executed. The new treated data will be stored in the DATA folder.
 
 It is afterwards possible to run all the remaining files. Here is a brief summary of the content of each file : 
 - Regularization.jl : LogisticClassifier, LogisticClassifier with a lasso regularization, an attempt at LogisticClassifier with a ridge regularization.
