@@ -4,7 +4,7 @@ using DataFrames, CSV, Statistics, MLJ, Serialization
 #Downloading of datasets should be done before running this file (see README)
 
 #importing datasets
-train_data = CSV.read("DATA/train.csv.gz", DataFrame)
+train_data = CSV.read("DATA/train.csv", DataFrame) 
 test_data = CSV.read("DATA/test.csv", DataFrame)
 
 y = categorical(train_data.labels, levels = ["KAT5", "CBP", "eGFP"], ordered = true)
