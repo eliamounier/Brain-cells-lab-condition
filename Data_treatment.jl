@@ -1,8 +1,10 @@
 using Pkg; Pkg.activate(joinpath(Pkg.devdir(), "MLCourse"))
 using DataFrames, CSV, Statistics, MLJ, Serialization
 
+#Downloading of datasets should be done before running this file (see README)
+
 #importing datasets
-train_data = CSV.read("DATA/train.csv", DataFrame)
+train_data = CSV.read("DATA/train.csv.gz", DataFrame)
 test_data = CSV.read("DATA/test.csv", DataFrame)
 
 y = categorical(train_data.labels, levels = ["KAT5", "CBP", "eGFP"], ordered = true)
@@ -25,7 +27,6 @@ X_cleaned = select(X_const, Not(corr_names1_wout))
 #back into exploitable form
 dataX = X_cleaned[1:5000, :]
 dataT = X_cleaned[5001:8093, :]
-
 
 #Saving new datasets
 serialize("DATA/trainlabels.dat", y)
