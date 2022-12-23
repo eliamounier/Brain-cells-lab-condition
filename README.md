@@ -24,7 +24,7 @@ Data sets "test.csv" and "train.csv" need to be downloaded from:
 - https://lcnwww.epfl.ch/bio322/project2022/test.csv.gz 
 - https://lcnwww.epfl.ch/bio322/project2022/train.csv.gz  
 
-and added into the empty folder "DATA" under the following paths: "DATA/test.csv" and "DATA/train.csv"
+and added into the empty folder "DATA" under the following paths: "DATA/test.csv" and "DATA/train.csv".
 
 
 ## Running the code
